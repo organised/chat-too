@@ -17,7 +17,7 @@
       background-color: #f9f9f9;
     }
 
-    /* Ensure the main chat container clears mobile toolbar */
+    /* Chat container adjusted with margin instead of padding to clear toolbar */
     #chat-container {
       display: flex;
       flex-direction: column;
@@ -25,8 +25,7 @@
       width: 100%;
       height: 100%;
       max-width: 400px;
-      padding: 20px 10px;
-      padding-top: 120px; /* Extra space to clear the toolbar on iOS/Android */
+      margin-top: 60px; /* Extra space for mobile toolbar without padding interference */
       box-sizing: border-box;
     }
 
@@ -36,6 +35,7 @@
       width: 90%;
       max-width: 400px;
       padding: 20px;
+      z-index: 1; /* Ensure clickable priority */
     }
 
     #landing h2 {
@@ -53,9 +53,10 @@
       border-radius: 8px;
       border: 1px solid #ccc;
       box-sizing: border-box;
+      z-index: 1; /* Ensure buttons are above any overlays */
     }
 
-    /* Chat container */
+    /* Chat section */
     #chat {
       display: flex;
       flex-direction: column;
@@ -73,7 +74,7 @@
 
     #shared-message {
       width: 100%;
-      height: 18vh; /* Ensures space above the keyboard */
+      height: 18vh;
       padding: 10px;
       font-size: 18px;
       color: #555;
@@ -95,13 +96,13 @@
 
     #message-input {
       width: 100%;
-      height: 18vh; /* Ensures space above the keyboard */
+      height: 18vh;
       padding: 10px;
       font-size: 18px;
       border-radius: 8px;
       border: 1px solid #ccc;
       box-sizing: border-box;
-      resize: none; /* Prevents manual resizing */
+      resize: none;
     }
 
     /* Button adjustments */
