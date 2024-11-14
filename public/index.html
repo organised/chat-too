@@ -4,105 +4,102 @@
   <meta charset="UTF-8">
   <title>Chat-Too</title>
   <style>
-    /* Full height layout and basic resets */
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: #f9f9f9;
-    }
+   body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f9f9f9;
+  overflow: hidden; /* Prevents scrolling for a full-height experience */
+}
 
-    #chat {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-      width: 100%;
-      box-sizing: border-box;
-      padding: 10px;
-    }
+#chat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between; /* Ensures full height usage */
+  height: 100vh; /* Full viewport height */
+  width: 100%;
+  max-width: 500px;
+  box-sizing: border-box;
+  padding: 10px;
+}
 
-    #shared-message-container, #input-container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 90%;
-      max-width: 500px;
-      margin-bottom: 15px;
-      position: relative;
-    }
+#shared-message-container, #input-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
 
-    #shared-message, #message-input {
-      width: 100%;
-      padding: 15px;
-      font-size: 24px;
-      border: 2px solid #ccc;
-      border-radius: 15px;
-      box-sizing: border-box;
-      background-color: #f0f0f0;
-    }
+#shared-message {
+  width: 100%;
+  padding: 15px;
+  font-size: 24px;
+  border: 2px solid #ccc;
+  border-radius: 15px;
+  background-color: #f0f0f0;
+  overflow-wrap: break-word;
+  max-height: 150px;
+  overflow-y: auto;
+}
 
-    /* Adjusted styling for #shared-message to support smooth text wrapping */
-    #shared-message {
-      display: flex;
-      align-items: center;
-      justify-content: flex-start; /* Left-align text */
-      white-space: normal; /* Enable text wrapping */
-      overflow-wrap: break-word; /* Break long words if necessary */
-      height: auto; /* Adjust height with content */
-      max-height: 80px; /* Limit height */
-      overflow-y: auto; /* Scroll only if content exceeds max height */
-    }
+#message-input {
+  width: 100%;
+  padding: 15px;
+  font-size: 24px;
+  border: 2px solid #ccc;
+  border-radius: 15px;
+  box-sizing: border-box;
+  background-color: #f0f0f0;
+}
 
-    /* Button Styling */
-    .control-button {
-      width: 50px;
-      height: 50px;
-      margin-left: 10px;
-      border: none;
-      border-radius: 50%;
-      font-size: 24px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
+.control-button {
+  width: 50px;
+  height: 50px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 50%;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-    #clear-button {
-      background-color: #ffccd5;
-    }
+#clear-button {
+  background-color: #ffccd5;
+}
 
-    #clear-button:active {
-      background-color: #f5a6af;
-    }
+#clear-button:active {
+  background-color: #f5a6af;
+}
 
-    #delete-button {
-      background-color: #4CAF50;
-    }
+#delete-button {
+  background-color: #4CAF50;
+}
 
-    #delete-button:active {
-      background-color: #45a049;
-    }
+#delete-button:active {
+  background-color: #45a049;
+}
 
-    /* Responsive Adjustments */
-    @media only screen and (max-width: 600px) {
-      #shared-message, #message-input {
-        font-size: 20px;
-        padding: 10px;
-      }
+/* Responsive adjustments for smaller screens */
+@media only screen and (max-width: 600px) {
+  #shared-message, #message-input {
+    font-size: 20px;
+    padding: 10px;
+  }
+  
+  .control-button {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+}
 
-      .control-button {
-        width: 40px;
-        height: 40px;
-        font-size: 20px;
-      }
-    }
   </style>
 </head>
 <body>
