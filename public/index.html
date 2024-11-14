@@ -2,141 +2,113 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Real-Time Typing with Clear and Delete Buttons</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Real-Time Typing Chat</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mobi.css/6.0.0/mobi.min.css">
   <style>
-    /* Full height layout and basic resets */
+    /* Adjustments for chat components */
     body, html {
-      margin: 0;
-      padding: 0;
       height: 100%;
-      font-family: Arial, sans-serif;
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+    }
+
+    /* Landing page styling */
+    #landing {
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+      padding: 20px;
+    }
+
+    #landing h2 {
+      font-size: 24px;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    #landing button,
+    #room-code-input {
+      font-size: 18px;
+      width: 100%;
+      margin: 8px 0;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
     }
 
     #chat {
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      height: 100%;
       width: 100%;
-      box-sizing: border-box;
+      height: 100%;
+      padding: 10px;
     }
 
-    /* Shared message and input box should each occupy 45% of the vertical space */
-    #shared-message-container, #input-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 90%;
-      height: 45%;
-      margin-bottom: 10px;
+    #shared-message-container,
+    #input-container {
+      width: 100%;
+      max-width: 400px;
+      margin-bottom: 20px;
       position: relative;
     }
 
     #shared-message {
       width: 100%;
-      max-height: 100%;
       padding: 15px;
-      font-size: 28px;
-      border: 2px solid #ccc;
-      border-radius: 15px;
-      background-color: #f0f0f0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow-y: auto; /* Allow scrolling if text overflows */
-      word-wrap: break-word; /* Ensure text wraps within container */
+      font-size: 18px;
+      color: #555;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background-color: #fff;
       box-sizing: border-box;
+      overflow-y: auto;
+      word-wrap: break-word;
+      max-height: 100px;
     }
 
     #message-input {
       width: 100%;
-      height: 100%;
       padding: 15px;
-      font-size: 28px;
-      border: 2px solid #ccc;
-      border-radius: 15px;
+      font-size: 18px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
       box-sizing: border-box;
     }
 
-    /* Styling for the clear and delete buttons */
-    #clear-button, #delete-button {
+    /* Button adjustments */
+    #clear-button,
+    #delete-button {
       position: absolute;
-      right: -70px;
-      width: 60px;
-      height: 60px;
+      right: 10px;
+      width: 50px;
+      height: 50px;
       border: none;
       border-radius: 50%;
-      font-size: 30px;
+      font-size: 24px;
       cursor: pointer;
     }
 
     #clear-button {
+      bottom: -10px;
       background-color: #ffccd5;
     }
 
-    #clear-button:active {
-      background-color: #f5a6af;
-    }
-
     #delete-button {
+      top: -10px;
       background-color: #4CAF50;
-    }
-
-    #delete-button:active {
-      background-color: #45a049;
-    }
-
-    /* Improved landing screen */
-    #landing {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      padding: 20px;
-    }
-
-    #landing h2 {
-      font-size: 24px;
-      margin-bottom: 10px;
-    }
-
-    #landing button,
-    #room-code-input {
-      font-size: 18px;
-      padding: 10px;
-      margin: 5px;
-      width: 80%;
-      max-width: 300px;
-    }
-
-    /* Responsive for smaller screens */
-    @media only screen and (max-width: 600px) {
-      #clear-button, #delete-button {
-        right: -50px;
-        width: 50px;
-        height: 50px;
-        font-size: 25px;
-      }
-
-      #landing h2 {
-        font-size: 20px;
-      }
-
-      #landing button,
-      #room-code-input {
-        font-size: 16px;
-        width: 90%;
-      }
     }
   </style>
 </head>
 <body>
   <div id="landing">
-    <h2>Welcome to Real-Time Typing Chat</h2>
+    <h2>Real-Time Typing Chat</h2>
     <button id="create-room">Create Chat Room</button>
     <p>OR</p>
     <input id="room-code-input" placeholder="Enter Room Code" />
@@ -148,7 +120,6 @@
       <div id="shared-message">Start typing...</div>
       <button id="delete-button">✅</button>
     </div>
-
     <div id="input-container">
       <input id="message-input" autocomplete="off" placeholder="Type your message here..." />
       <button id="clear-button">😶</button>
@@ -160,6 +131,7 @@
 
   <script>
     const socket = io();
+
     const createRoomButton = document.getElementById('create-room');
     const joinRoomButton = document.getElementById('join-room');
     const roomCodeInput = document.getElementById('room-code-input');
