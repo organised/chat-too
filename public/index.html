@@ -47,14 +47,16 @@
       background-color: #f0f0f0;
     }
 
+    /* Adjusted styling for #shared-message to support smooth text wrapping */
     #shared-message {
       display: flex;
       align-items: center;
-      justify-content: center;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      height: 80px; /* Fixed height for consistency */
+      justify-content: flex-start; /* Left-align text */
+      white-space: normal; /* Enable text wrapping */
+      overflow-wrap: break-word; /* Break long words if necessary */
+      height: auto; /* Adjust height with content */
+      max-height: 80px; /* Limit height */
+      overflow-y: auto; /* Scroll only if content exceeds max height */
     }
 
     /* Button Styling */
