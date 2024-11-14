@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Real-Time Typing with Clear and Delete Buttons</title>
+  <style>
+    /* Full height layout and basic resets */
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #chat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    /* Shared message and input box should each occupy 45% of the vertical space */
+    #shared-message-container, #input-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 80%;
+      height: 45%;
+      margin-bottom: 10px;
+      position: relative;
+    }
+
+    #shared-message, #message-input {
+      width: 100%;
+      height: 100%;
+      padding: 15px;
+      font-size: 28px;
+      border: 2px solid #ccc;
+      border-radius: 15px;
+      box-sizing: border-box;
+    }
+
+    #shared-message {
+      background-color: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Styling for the clear button (😶) */
+    #clear-button, #delete-button {
+      position: absolute;
+      right: -70px;
+      width: 60px;
+      height: 60px;
+      border: none;
+      border-radius: 50%;
+      font-size: 30px;
+      cursor: pointer;
+    }
+
+    #clear-button {
+      background-color: #ffccd5;  /* Light pink background for 😶 button */
+    }
+
+    #clear-button:active {
+      background-color: #f5a6af;  /* Darker pink when tapped */
+    }
+
+    /* Styling for the delete button (✅) */
+    #delete-button {
+      background-color: #4CAF50;  /* Green background for ✅ button */
+    }
+
+    #delete-button:active {
+      background-color: #45a049;  /* Darker green when tapped */
+    }
+
+    /* Responsive */
+    @media only screen and (max-width: 600px) {
+      #clear-button, #delete-button {
+        right: -50px;
+        width: 50px;
+        height: 50px;
+        font-size: 25px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="landing">
+    <h2>Welcome to Real-Time Typing Chat</h2>
+    <button id="create-room">Create Chat Room</button>
+    <p>OR</p>
+    <input id="room-code-input" placeholder="Enter Room Code" />
+    <button id="join-room">Join Chat Room</button>
+  </div>
+
+  <div id="chat" style="display:none;">
+    
+    <!-- Shared message container with delete button -->
+    <div id="shared-message-container">
+      <div id="shared-message">Start typing...</div>
+      <button id="delete-button">✅</button> <!-- Delete button for shared message -->
+    </div>
+
+    <!-- Input container with clear button -->
+    <div id="input-container">
+      <input id="message-input" autocomplete="off" placeholder="Type your message here..." />
+      <button id="clear-button">😶</button> <!-- Clear button for input -->
+    </div>
+
+  </div>
+
+  <!-- Include Socket.IO client script -->
+  <script src="/socket.io/socket.io.js"></script>
+
+  <script>
+    const socket = io();
+
+    const createRoomButton = document.getElementById('create-room');
+    const joinRoomButton = document.getElementById('join-room');
+    const roomCodeInput = document.getElementById('room-code-input');
+    const sharedMessageBox = document.getElementById('shared-message');
+    const messageInput = document.getElementById('message-input');
+    const clearButton = document.getElementById('clear-button');
+    const deleteButton = document.getElementById('delete-button');
+    let roomCode = '';  // Store the room code here
+
+    // Create a new chat room
+    createRoomButton.addEventListener('click', () => {
+      socket.emit('create room');  // Emit the create room event
+    });
+
+    // Join an existing chat room
+    joinRoomButton.addEventListener('click', () => {
+      const code = roomCodeInput.value.trim();  // Get the input room code
+      if (code) {
+        roomCode = code;  // Store the room code
+        socket.emit('join room', code);  // Emit the join room event
+      }
+    });
+
+    // Handle room creation and display the room code
+    socket.on('room created', (code) => {
+      roomCode = code;  // Store the generated room code
+      alert(`Your room code is: ${code}`);  // Show the user the room code
+      showChatInterface();  // Show the chat interface
+    });
+
+    // Handle successful room joining
+    socket.on('room joined', (code) => {
+      roomCode = code;  // Store the room code
+      showChatInterface();  // Show the chat interface
+    });
+
+    // Capture every keystroke and send it to the server
+    messageInput.addEventListener('input', (e) => {
+      const message = e.target.value;
+      socket.emit('typing', { room: roomCode, message: message });  // Emit the message to the server
+    });
+
+    // Receive the real-time typing event and update the shared message box
+    socket.on('typing', (data) => {
+      sharedMessageBox.textContent = data.message;  // Update the shared message box
+    });
+
+    // Clear the input field when the clear button is clicked
+    clearButton.addEventListener('click', () => {
+      messageInput.value = '';  // Clear the input field
+      socket.emit('typing', { room: roomCode, message: '' });  // Clear the shared message box for both users
+    });
+
+    // Delete the shared message and clear the other user's input when the delete button is clicked
+    deleteButton.addEventListener('click', () => {
+      socket.emit('clear for other', { room: roomCode });  // Notify server to clear input on the other user's side
+      sharedMessageBox.textContent = '';  // Clear shared message for the initiating user
+    });
+
+    // Event from server to clear the other user's input field
+    socket.on('clear for other', () => {
+      messageInput.value = '';  // Clear input field for the other user
+    });
+
+    // Show the chat interface and hide the landing page
+    function showChatInterface() {
+      document.getElementById('landing').style.display = 'none';
+      document.getElementById('chat').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
