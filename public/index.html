@@ -4,17 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Real-Time Typing Chat</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mobi.css/6.0.0/mobi.min.css">
   <style>
-    /* Adjustments for chat components */
+    /* Full height layout and basic resets */
     body, html {
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       margin: 0;
+      padding: 0;
+      height: 100%;
       font-family: Arial, sans-serif;
-      background: #f9f9f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f9f9f9;
     }
 
     /* Landing page styling */
@@ -42,26 +42,30 @@
       box-sizing: border-box;
     }
 
+    /* Chat container */
     #chat {
       display: flex;
       flex-direction: column;
       align-items: center;
       width: 100%;
       height: 100%;
+      max-width: 400px;
       padding: 10px;
+      box-sizing: border-box;
     }
 
-    #shared-message-container,
-    #input-container {
+    /* Shared message container styling */
+    #shared-message-container {
+      display: flex;
+      flex-direction: column;
       width: 100%;
-      max-width: 400px;
-      margin-bottom: 20px;
-      position: relative;
+      margin-bottom: 15px;
     }
 
     #shared-message {
       width: 100%;
-      padding: 15px;
+      height: 20vh; /* Ensures space above the keyboard */
+      padding: 10px;
       font-size: 18px;
       color: #555;
       border: 1px solid #ccc;
@@ -70,39 +74,56 @@
       box-sizing: border-box;
       overflow-y: auto;
       word-wrap: break-word;
-      max-height: 100px;
+    }
+
+    /* Input container styling */
+    #input-container {
+      display: flex;
+      width: 100%;
+      margin-bottom: 15px;
+      position: relative;
     }
 
     #message-input {
       width: 100%;
-      padding: 15px;
+      height: 20vh; /* Ensures space above the keyboard */
+      padding: 10px;
       font-size: 18px;
       border-radius: 8px;
       border: 1px solid #ccc;
       box-sizing: border-box;
+      resize: none; /* Prevents manual resizing */
     }
 
     /* Button adjustments */
     #clear-button,
     #delete-button {
       position: absolute;
+      bottom: 10px;
       right: 10px;
-      width: 50px;
-      height: 50px;
+      width: 40px;
+      height: 40px;
       border: none;
       border-radius: 50%;
-      font-size: 24px;
+      font-size: 20px;
       cursor: pointer;
     }
 
     #clear-button {
-      bottom: -10px;
       background-color: #ffccd5;
+      right: 60px;
+    }
+
+    #clear-button:active {
+      background-color: #f5a6af;
     }
 
     #delete-button {
-      top: -10px;
       background-color: #4CAF50;
+    }
+
+    #delete-button:active {
+      background-color: #45a049;
     }
   </style>
 </head>
@@ -120,8 +141,9 @@
       <div id="shared-message">Start typing...</div>
       <button id="delete-button">✅</button>
     </div>
+
     <div id="input-container">
-      <input id="message-input" autocomplete="off" placeholder="Type your message here..." />
+      <textarea id="message-input" autocomplete="off" placeholder="Type your message here..."></textarea>
       <button id="clear-button">😶</button>
     </div>
   </div>
