@@ -4,102 +4,146 @@
   <meta charset="UTF-8">
   <title>Chat-Too</title>
   <style>
-   body, html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  font-family: Arial, sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #f9f9f9;
-  overflow: hidden; /* Prevents scrolling for a full-height experience */
-}
+    /* Full height layout and basic resets */
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
 
-#chat {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between; /* Ensures full height usage */
-  height: 100vh; /* Full viewport height */
-  width: 100%;
-  max-width: 500px;
-  box-sizing: border-box;
-  padding: 10px;
-}
+    /* Landing screen styling */
+    #landing {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 90%;
+      max-width: 500px;
+      text-align: center;
+      padding: 20px;
+      box-sizing: border-box;
+    }
 
-#shared-message-container, #input-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-}
+    #landing h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
 
-#shared-message {
-  width: 100%;
-  padding: 15px;
-  font-size: 24px;
-  border: 2px solid #ccc;
-  border-radius: 15px;
-  background-color: #f0f0f0;
-  overflow-wrap: break-word;
-  max-height: 150px;
-  overflow-y: auto;
-}
+    #landing button, #room-code-input {
+      width: 100%;
+      max-width: 300px;
+      padding: 12px;
+      margin: 10px 0;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
 
-#message-input {
-  width: 100%;
-  padding: 15px;
-  font-size: 24px;
-  border: 2px solid #ccc;
-  border-radius: 15px;
-  box-sizing: border-box;
-  background-color: #f0f0f0;
-}
+    #create-room, #join-room {
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+    }
 
-.control-button {
-  width: 50px;
-  height: 50px;
-  margin-left: 10px;
-  border: none;
-  border-radius: 50%;
-  font-size: 24px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+    #room-code-input {
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      padding: 12px;
+      text-align: center;
+    }
 
-#clear-button {
-  background-color: #ffccd5;
-}
+    /* Chat layout */
+    #chat {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100vh;
+      width: 100%;
+      max-width: 500px;
+      padding: 10px;
+      box-sizing: border-box;
+    }
 
-#clear-button:active {
-  background-color: #f5a6af;
-}
+    #shared-message-container, #input-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
 
-#delete-button {
-  background-color: #4CAF50;
-}
+    #shared-message {
+      width: 100%;
+      padding: 15px;
+      font-size: 20px;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      background-color: #f0f0f0;
+      overflow-wrap: break-word;
+      max-height: 150px;
+      overflow-y: auto;
+    }
 
-#delete-button:active {
-  background-color: #45a049;
-}
+    #message-input {
+      width: 100%;
+      padding: 15px;
+      font-size: 18px;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      background-color: #f0f0f0;
+    }
 
-/* Responsive adjustments for smaller screens */
-@media only screen and (max-width: 600px) {
-  #shared-message, #message-input {
-    font-size: 20px;
-    padding: 10px;
-  }
-  
-  .control-button {
-    width: 40px;
-    height: 40px;
-    font-size: 20px;
-  }
-}
+    /* Button Styling */
+    .control-button {
+      width: 45px;
+      height: 45px;
+      margin-left: 8px;
+      border: none;
+      border-radius: 50%;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
+    #clear-button {
+      background-color: #ffccd5;
+    }
+
+    #delete-button {
+      background-color: #4CAF50;
+    }
+
+    /* Responsive adjustments for smaller screens */
+    @media only screen and (max-width: 600px) {
+      #landing h2 {
+        font-size: 20px;
+      }
+
+      #landing button, #room-code-input {
+        font-size: 16px;
+        padding: 10px;
+      }
+
+      #shared-message, #message-input {
+        font-size: 16px;
+        padding: 12px;
+      }
+
+      .control-button {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -112,7 +156,6 @@
   </div>
 
   <div id="chat" style="display:none;">
-    
     <!-- Shared message container with delete button -->
     <div id="shared-message-container">
       <div id="shared-message">Start typing...</div>
@@ -124,7 +167,6 @@
       <input id="message-input" autocomplete="off" placeholder="Type your message here..." />
       <button id="clear-button" class="control-button">😶</button>
     </div>
-
   </div>
 
   <!-- Include Socket.IO client script -->
