@@ -13,6 +13,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      background-color: #f9f9f9;
     }
 
     #chat {
@@ -23,72 +24,81 @@
       height: 100%;
       width: 100%;
       box-sizing: border-box;
+      padding: 10px;
     }
 
-    /* Shared message and input box should each occupy 45% of the vertical space */
     #shared-message-container, #input-container {
       display: flex;
       align-items: center;
-      justify-content: center;
-      width: 80%;
-      height: 45%;
-      margin-bottom: 10px;
+      justify-content: space-between;
+      width: 90%;
+      max-width: 500px;
+      margin-bottom: 15px;
       position: relative;
     }
 
     #shared-message, #message-input {
       width: 100%;
-      height: 100%;
       padding: 15px;
-      font-size: 28px;
+      font-size: 24px;
       border: 2px solid #ccc;
       border-radius: 15px;
       box-sizing: border-box;
+      background-color: #f0f0f0;
     }
 
     #shared-message {
-      background-color: #f0f0f0;
       display: flex;
       align-items: center;
       justify-content: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      height: 80px; /* Fixed height for consistency */
     }
 
-    /* Styling for the clear button (😶) */
-    #clear-button, #delete-button {
-      position: absolute;
-      right: -70px;
-      width: 60px;
-      height: 60px;
+    /* Button Styling */
+    .control-button {
+      width: 50px;
+      height: 50px;
+      margin-left: 10px;
       border: none;
       border-radius: 50%;
-      font-size: 30px;
+      font-size: 24px;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
     }
 
     #clear-button {
-      background-color: #ffccd5;  /* Light pink background for 😶 button */
+      background-color: #ffccd5;
     }
 
     #clear-button:active {
-      background-color: #f5a6af;  /* Darker pink when tapped */
+      background-color: #f5a6af;
     }
 
-    /* Styling for the delete button (✅) */
     #delete-button {
-      background-color: #4CAF50;  /* Green background for ✅ button */
+      background-color: #4CAF50;
     }
 
     #delete-button:active {
-      background-color: #45a049;  /* Darker green when tapped */
+      background-color: #45a049;
     }
 
-    /* Responsive */
+    /* Responsive Adjustments */
     @media only screen and (max-width: 600px) {
-      #clear-button, #delete-button {
-        right: -50px;
-        width: 50px;
-        height: 50px;
-        font-size: 25px;
+      #shared-message, #message-input {
+        font-size: 20px;
+        padding: 10px;
+      }
+
+      .control-button {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
       }
     }
   </style>
@@ -107,13 +117,13 @@
     <!-- Shared message container with delete button -->
     <div id="shared-message-container">
       <div id="shared-message">Start typing...</div>
-      <button id="delete-button">✅</button> <!-- Delete button for shared message -->
+      <button id="delete-button" class="control-button">✅</button>
     </div>
 
     <!-- Input container with clear button -->
     <div id="input-container">
       <input id="message-input" autocomplete="off" placeholder="Type your message here..." />
-      <button id="clear-button">😶</button> <!-- Clear button for input -->
+      <button id="clear-button" class="control-button">😶</button>
     </div>
 
   </div>
@@ -135,60 +145,60 @@
 
     // Create a new chat room
     createRoomButton.addEventListener('click', () => {
-      socket.emit('create room');  // Emit the create room event
+      socket.emit('create room');
     });
 
     // Join an existing chat room
     joinRoomButton.addEventListener('click', () => {
-      const code = roomCodeInput.value.trim();  // Get the input room code
+      const code = roomCodeInput.value.trim();
       if (code) {
-        roomCode = code;  // Store the room code
-        socket.emit('join room', code);  // Emit the join room event
+        roomCode = code;
+        socket.emit('join room', code);
       }
     });
 
     // Handle room creation and display the room code
     socket.on('room created', (code) => {
-      roomCode = code;  // Store the generated room code
-      alert(`Your room code is: ${code}`);  // Show the user the room code
-      showChatInterface();  // Show the chat interface
+      roomCode = code;
+      alert(`Your room code is: ${code}`);
+      showChatInterface();
     });
 
     // Handle successful room joining
     socket.on('room joined', (code) => {
-      roomCode = code;  // Store the room code
-      showChatInterface();  // Show the chat interface
+      roomCode = code;
+      showChatInterface();
     });
 
-    // Capture every keystroke and send it to the server
+    // Capture keystrokes and send to server
     messageInput.addEventListener('input', (e) => {
       const message = e.target.value;
-      socket.emit('typing', { room: roomCode, message: message });  // Emit the message to the server
+      socket.emit('typing', { room: roomCode, message: message });
     });
 
-    // Receive the real-time typing event and update the shared message box
+    // Receive real-time typing and update shared message
     socket.on('typing', (data) => {
-      sharedMessageBox.textContent = data.message;  // Update the shared message box
+      sharedMessageBox.textContent = data.message;
     });
 
-    // Clear the input field when the clear button is clicked
+    // Clear input field on clear button click
     clearButton.addEventListener('click', () => {
-      messageInput.value = '';  // Clear the input field
-      socket.emit('typing', { room: roomCode, message: '' });  // Clear the shared message box for both users
+      messageInput.value = '';
+      socket.emit('typing', { room: roomCode, message: '' });
     });
 
-    // Delete the shared message and clear the other user's input when the delete button is clicked
+    // Delete shared message on delete button click
     deleteButton.addEventListener('click', () => {
-      socket.emit('clear for other', { room: roomCode });  // Notify server to clear input on the other user's side
-      sharedMessageBox.textContent = '';  // Clear shared message for the initiating user
+      socket.emit('clear for other', { room: roomCode });
+      sharedMessageBox.textContent = '';
     });
 
-    // Event from server to clear the other user's input field
+    // Clear other user's input
     socket.on('clear for other', () => {
-      messageInput.value = '';  // Clear input field for the other user
+      messageInput.value = '';
     });
 
-    // Show the chat interface and hide the landing page
+    // Show chat interface
     function showChatInterface() {
       document.getElementById('landing').style.display = 'none';
       document.getElementById('chat').style.display = 'block';
