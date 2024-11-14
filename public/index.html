@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Chat-Too</title>
+  <title>Real-Time Typing with Clear and Delete Buttons</title>
   <style>
     /* Full height layout and basic resets */
     body, html {
@@ -10,138 +10,126 @@
       padding: 0;
       height: 100%;
       font-family: Arial, sans-serif;
-      background-color: #f9f9f9;
       display: flex;
       justify-content: center;
       align-items: center;
-      overflow: hidden;
     }
 
-    /* Landing screen styling */
-    #landing {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 90%;
-      max-width: 500px;
-      text-align: center;
-      padding: 20px;
-      box-sizing: border-box;
-    }
-
-    #landing h2 {
-      font-size: 24px;
-      margin-bottom: 20px;
-    }
-
-    #landing button, #room-code-input {
-      width: 100%;
-      max-width: 300px;
-      padding: 12px;
-      margin: 10px 0;
-      font-size: 18px;
-      border: none;
-      border-radius: 8px;
-      box-sizing: border-box;
-    }
-
-    #create-room, #join-room {
-      background-color: #4CAF50;
-      color: white;
-      cursor: pointer;
-    }
-
-    #room-code-input {
-      border: 2px solid #ccc;
-      border-radius: 8px;
-      font-size: 16px;
-      padding: 12px;
-      text-align: center;
-    }
-
-    /* Chat layout */
     #chat {
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      height: 100vh;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
       width: 100%;
-      max-width: 500px;
-      padding: 10px;
       box-sizing: border-box;
     }
 
+    /* Shared message and input box should each occupy 45% of the vertical space */
     #shared-message-container, #input-container {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      width: 100%;
+      justify-content: center;
+      width: 90%;
+      height: 45%;
+      margin-bottom: 10px;
+      position: relative;
     }
 
     #shared-message {
       width: 100%;
+      max-height: 100%;
       padding: 15px;
-      font-size: 20px;
+      font-size: 28px;
       border: 2px solid #ccc;
-      border-radius: 10px;
+      border-radius: 15px;
       background-color: #f0f0f0;
-      overflow-wrap: break-word;
-      max-height: 150px;
-      overflow-y: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow-y: auto; /* Allow scrolling if text overflows */
+      word-wrap: break-word; /* Ensure text wraps within container */
+      box-sizing: border-box;
     }
 
     #message-input {
       width: 100%;
+      height: 100%;
       padding: 15px;
-      font-size: 18px;
+      font-size: 28px;
       border: 2px solid #ccc;
-      border-radius: 10px;
-      background-color: #f0f0f0;
+      border-radius: 15px;
+      box-sizing: border-box;
     }
 
-    /* Button Styling */
-    .control-button {
-      width: 45px;
-      height: 45px;
-      margin-left: 8px;
+    /* Styling for the clear and delete buttons */
+    #clear-button, #delete-button {
+      position: absolute;
+      right: -70px;
+      width: 60px;
+      height: 60px;
       border: none;
       border-radius: 50%;
-      font-size: 20px;
+      font-size: 30px;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
     #clear-button {
       background-color: #ffccd5;
     }
 
+    #clear-button:active {
+      background-color: #f5a6af;
+    }
+
     #delete-button {
       background-color: #4CAF50;
     }
 
-    /* Responsive adjustments for smaller screens */
+    #delete-button:active {
+      background-color: #45a049;
+    }
+
+    /* Improved landing screen */
+    #landing {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+    }
+
+    #landing h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    #landing button,
+    #room-code-input {
+      font-size: 18px;
+      padding: 10px;
+      margin: 5px;
+      width: 80%;
+      max-width: 300px;
+    }
+
+    /* Responsive for smaller screens */
     @media only screen and (max-width: 600px) {
+      #clear-button, #delete-button {
+        right: -50px;
+        width: 50px;
+        height: 50px;
+        font-size: 25px;
+      }
+
       #landing h2 {
         font-size: 20px;
       }
 
-      #landing button, #room-code-input {
+      #landing button,
+      #room-code-input {
         font-size: 16px;
-        padding: 10px;
-      }
-
-      #shared-message, #message-input {
-        font-size: 16px;
-        padding: 12px;
-      }
-
-      .control-button {
-        width: 40px;
-        height: 40px;
-        font-size: 18px;
+        width: 90%;
       }
     }
   </style>
@@ -156,16 +144,14 @@
   </div>
 
   <div id="chat" style="display:none;">
-    <!-- Shared message container with delete button -->
     <div id="shared-message-container">
       <div id="shared-message">Start typing...</div>
-      <button id="delete-button" class="control-button">✅</button>
+      <button id="delete-button">✅</button>
     </div>
 
-    <!-- Input container with clear button -->
     <div id="input-container">
       <input id="message-input" autocomplete="off" placeholder="Type your message here..." />
-      <button id="clear-button" class="control-button">😶</button>
+      <button id="clear-button">😶</button>
     </div>
   </div>
 
@@ -174,7 +160,6 @@
 
   <script>
     const socket = io();
-
     const createRoomButton = document.getElementById('create-room');
     const joinRoomButton = document.getElementById('join-room');
     const roomCodeInput = document.getElementById('room-code-input');
@@ -182,14 +167,12 @@
     const messageInput = document.getElementById('message-input');
     const clearButton = document.getElementById('clear-button');
     const deleteButton = document.getElementById('delete-button');
-    let roomCode = '';  // Store the room code here
+    let roomCode = '';
 
-    // Create a new chat room
     createRoomButton.addEventListener('click', () => {
       socket.emit('create room');
     });
 
-    // Join an existing chat room
     joinRoomButton.addEventListener('click', () => {
       const code = roomCodeInput.value.trim();
       if (code) {
@@ -198,48 +181,40 @@
       }
     });
 
-    // Handle room creation and display the room code
     socket.on('room created', (code) => {
       roomCode = code;
       alert(`Your room code is: ${code}`);
       showChatInterface();
     });
 
-    // Handle successful room joining
     socket.on('room joined', (code) => {
       roomCode = code;
       showChatInterface();
     });
 
-    // Capture keystrokes and send to server
     messageInput.addEventListener('input', (e) => {
       const message = e.target.value;
       socket.emit('typing', { room: roomCode, message: message });
     });
 
-    // Receive real-time typing and update shared message
     socket.on('typing', (data) => {
       sharedMessageBox.textContent = data.message;
     });
 
-    // Clear input field on clear button click
     clearButton.addEventListener('click', () => {
       messageInput.value = '';
       socket.emit('typing', { room: roomCode, message: '' });
     });
 
-    // Delete shared message on delete button click
     deleteButton.addEventListener('click', () => {
       socket.emit('clear for other', { room: roomCode });
       sharedMessageBox.textContent = '';
     });
 
-    // Clear other user's input
     socket.on('clear for other', () => {
       messageInput.value = '';
     });
 
-    // Show chat interface
     function showChatInterface() {
       document.getElementById('landing').style.display = 'none';
       document.getElementById('chat').style.display = 'block';
