@@ -17,7 +17,7 @@
       background-color: #f9f9f9;
     }
 
-    /* Chat container adjusted with margin instead of padding to clear toolbar */
+    /* Chat container with margin instead of padding to clear toolbar */
     #chat-container {
       display: flex;
       flex-direction: column;
@@ -64,45 +64,25 @@
       width: 100%;
     }
 
-    /* Shared message container styling */
-    #shared-message-container {
-      display: flex;
+    /* Shared message and input container styling with fixed width */
+    #shared-message-container, #input-container {
       width: 100%;
+      max-width: 360px; /* Fixed width to prevent shifting */
       margin-bottom: 15px;
       position: relative;
     }
 
-    #shared-message {
+    #shared-message, #message-input {
       width: 100%;
+      max-width: 100%; /* Consistent width within containers */
       height: 18vh;
       padding: 10px;
       font-size: 18px;
-      color: #555;
       border: 1px solid #ccc;
       border-radius: 8px;
-      background-color: #fff;
       box-sizing: border-box;
       overflow-y: auto;
       word-wrap: break-word;
-    }
-
-    /* Input container styling */
-    #input-container {
-      display: flex;
-      width: 100%;
-      margin-bottom: 15px;
-      position: relative;
-    }
-
-    #message-input {
-      width: 100%;
-      height: 18vh;
-      padding: 10px;
-      font-size: 18px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      box-sizing: border-box;
-      resize: none;
     }
 
     /* Button adjustments */
