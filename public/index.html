@@ -17,6 +17,19 @@
       background-color: #f9f9f9;
     }
 
+    /* Ensure the main chat container clears mobile toolbar */
+    #chat-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      max-width: 400px;
+      padding: 20px 10px;
+      padding-top: 40px; /* Extra space to clear the toolbar on iOS/Android */
+      box-sizing: border-box;
+    }
+
     /* Landing page styling */
     #landing {
       text-align: center;
@@ -48,18 +61,14 @@
       flex-direction: column;
       align-items: center;
       width: 100%;
-      height: 100%;
-      max-width: 400px;
-      padding: 10px;
-      box-sizing: border-box;
     }
 
     /* Shared message container styling */
     #shared-message-container {
       display: flex;
-      flex-direction: column;
       width: 100%;
       margin-bottom: 15px;
+      position: relative;
     }
 
     #shared-message {
@@ -99,19 +108,18 @@
     #clear-button,
     #delete-button {
       position: absolute;
-      bottom: 10px;
-      right: 10px;
       width: 40px;
       height: 40px;
       border: none;
       border-radius: 50%;
       font-size: 20px;
       cursor: pointer;
+      top: 10px;
+      right: -50px;
     }
 
     #clear-button {
       background-color: #ffccd5;
-      right: 60px;
     }
 
     #clear-button:active {
@@ -136,15 +144,17 @@
     <button id="join-room">Join Chat Room</button>
   </div>
 
-  <div id="chat" style="display:none;">
-    <div id="shared-message-container">
-      <div id="shared-message">Start typing...</div>
-      <button id="delete-button">✅</button>
-    </div>
+  <div id="chat-container">
+    <div id="chat" style="display:none;">
+      <div id="shared-message-container">
+        <div id="shared-message">Start typing...</div>
+        <button id="delete-button">✅</button>
+      </div>
 
-    <div id="input-container">
-      <textarea id="message-input" autocomplete="off" placeholder="Type your message here..."></textarea>
-      <button id="clear-button">😶</button>
+      <div id="input-container">
+        <textarea id="message-input" autocomplete="off" placeholder="Type your message here..."></textarea>
+        <button id="clear-button">😶</button>
+      </div>
     </div>
   </div>
 
