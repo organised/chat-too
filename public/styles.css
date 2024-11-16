@@ -77,19 +77,21 @@ body, html {
   width: 100%;
 }
 
-/* Shared message and input container styling with fixed width */
+/* Shared message and input container styling - mobile first */
 #shared-message-container, #input-container {
-  width: 180px;
+  width: 90%;
+  max-width: 360px;
   margin-bottom: 15px;
   position: relative;
-  padding-right: 60px; /* Add padding to accommodate the buttons */
+  padding-right: 0; /* Remove fixed padding */
 }
 
 #shared-message, #message-input {
-  width: 100%; /* Change from fixed width to 100% */
+  width: 100%;
   max-width: 360px;
   height: 18vh;
   padding: 10px;
+  padding-right: 50px; /* Add padding only to the input area */
   font-size: 18px;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -100,21 +102,38 @@ body, html {
   white-space: pre-wrap;
 }
 
-/* Button adjustments */
+/* Button adjustments - mobile first */
 #clear-button,
 #delete-button {
   position: absolute;
-  width: 40px;
-  height: 40px;
+  width: 35px; /* Slightly smaller buttons */
+  height: 35px;
   border: none;
   border-radius: 50%;
-  font-size: 20px;
+  font-size: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  top: 10px;
-  right: 10px; /* Change from -50px to 10px */
+  top: 5px;
+  right: 5px;
+}
+
+/* Desktop styles */
+@media (min-width: 769px) {
+  #shared-message-container, #input-container {
+    width: 360px;
+    padding-right: 60px;
+  }
+
+  #clear-button,
+  #delete-button {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    top: 10px;
+    right: 10px;
+  }
 }
 
 #clear-button {
