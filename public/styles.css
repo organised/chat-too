@@ -79,15 +79,14 @@ body, html {
 
 /* Shared message and input container styling with fixed width */
 #shared-message-container, #input-container {
-  width: 100%;
-  max-width: 360px;
+  width: 360px;
   margin-bottom: 15px;
   position: relative;
 }
 
 #shared-message, #message-input {
-  width: 100%;
-  max-width: 100%;
+  width: 360px;
+  max-width: 360px;
   height: 18vh;
   padding: 10px;
   font-size: 18px;
@@ -95,7 +94,9 @@ body, html {
   border-radius: 8px;
   box-sizing: border-box;
   overflow-y: auto;
+  overflow-x: hidden;
   word-wrap: break-word;
+  white-space: pre-wrap;
 }
 
 /* Button adjustments */
