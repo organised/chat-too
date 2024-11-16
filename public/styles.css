@@ -20,6 +20,11 @@ body, html {
   max-width: 70%;
   margin-top: 160px;
   box-sizing: border-box;
+  overflow-y: auto; /* Allow scrolling if content overflows */
+  position: fixed; /* Fix the container position */
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%); /* Center horizontally */
 }
 
 /* Landing page styling */
