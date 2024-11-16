@@ -79,7 +79,7 @@ body, html {
 
 /* Shared message and input container styling with fixed width */
 #shared-message-container, #input-container {
-  width: 360px;
+  width: 180px;
   margin-bottom: 15px;
   position: relative;
   padding-right: 60px; /* Add padding to accommodate the buttons */
